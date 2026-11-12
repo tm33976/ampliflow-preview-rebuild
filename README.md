@@ -11,7 +11,11 @@ An unofficial rebuild of the product preview on [ampliflow.in](https://ampliflow
 | Phone | Desktop screenshot shrunk to about 350 px | Separate mobile layout for each tab |
 | Tabs | Buttons with `aria-selected` and no tab role | `tab` and `tabpanel` roles, arrow keys, Home and End |
 | Autoplay | Every 4 s, pauses on hover only | Every 8 s, pauses on hover, focus, off screen and hidden tabs, stops after a choice, off with reduced motion |
-| Lighthouse mobile | Performance 71, Accessibility 86, LCP 4.5 s | Performance 96, Accessibility 100, LCP 1.9 s (local build) |
+| Lighthouse mobile | Performance 38 to 72, Accessibility 86, LCP 4.5 to 6.5 s | Performance 90 to 99, Accessibility 100, LCP 1.5 s |
+
+Lighthouse numbers come from several mobile runs on 13 Nov 2026, against ampliflow.in and this site on Vercel. They vary from run to run.
+
+Live: https://ampliflow-preview-rebuild.vercel.app
 
 ## Stack
 
