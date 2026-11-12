@@ -1,23 +1,108 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Semantic tokens. Every pair used for text passes WCAG AA (4.5:1) in both themes. */
+:root {
+  color-scheme: light;
+  --canvas: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #f3f4f8;
+  --surface-3: #e9ebf2;
+  --line: #e4e7ee;
+  --line-strong: #d3d8e3;
+  --ink: #0d0f14;
+  --ink-2: #2a2e3a;
+  --muted: #5b6072;
+  --brand: #2f37d9;
+  --brand-hover: #262db8;
+  --brand-ink: #2f37d9;
+  --brand-soft: #eef0fd;
+  --brand-soft-2: #dde1fb;
+  --violet: #7c3aed;
+  --ok-ink: #065f46;
+  --ok-soft: #d1fae5;
+  --wait-ink: #92400e;
+  --wait-soft: #fef3c7;
+  --rose-ink: #9f1239;
+  --rose-soft: #ffe4e6;
+  --sky-ink: #075985;
+  --sky-soft: #e0f2fe;
+  --glow-1: rgb(47 55 217 / 0.22);
+  --glow-2: rgb(124 58 237 / 0.16);
+  --glow-3: rgb(14 165 233 / 0.14);
+  --shadow-color: 222 30% 12%;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: #090b10;
+  --surface: #10131b;
+  --surface-2: #161a24;
+  --surface-3: #1d2230;
+  --line: #222838;
+  --line-strong: #2e3548;
+  --ink: #eceef4;
+  --ink-2: #c9cdd8;
+  --muted: #9aa1b2;
+  --brand: #4f57f5;
+  --brand-hover: #636bff;
+  --brand-ink: #9ba1ff;
+  --brand-soft: rgb(99 107 255 / 0.14);
+  --brand-soft-2: rgb(99 107 255 / 0.28);
+  --violet: #a78bfa;
+  --ok-ink: #6ee7b7;
+  --ok-soft: rgb(16 185 129 / 0.15);
+  --wait-ink: #fcd34d;
+  --wait-soft: rgb(245 158 11 / 0.15);
+  --rose-ink: #fda4af;
+  --rose-soft: rgb(244 63 94 / 0.15);
+  --sky-ink: #7dd3fc;
+  --sky-soft: rgb(14 165 233 / 0.15);
+  --glow-1: rgb(79 87 245 / 0.32);
+  --glow-2: rgb(167 139 250 / 0.22);
+  --glow-3: rgb(56 189 248 / 0.16);
+  --shadow-color: 228 60% 2%;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-soft-2: var(--brand-soft-2);
+  --color-violet: var(--violet);
+  --color-ok: var(--ok-ink);
+  --color-ok-soft: var(--ok-soft);
+  --color-wait: var(--wait-ink);
+  --color-wait-soft: var(--wait-soft);
+  --color-rose: var(--rose-ink);
+  --color-rose-soft: var(--rose-soft);
+  --color-sky: var(--sky-ink);
+  --color-sky-soft: var(--sky-soft);
+}
+
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand: #2f37d9;
-  --color-brand-600: #262db8;
-  --color-brand-100: #dfe2fb;
-  --color-brand-50: #eef0fd;
-  --color-ink: #0d0f14;
-  --color-muted: #5b6072;
-  --color-line: #e6e8ee;
-  --color-canvas: #f7f8fa;
-
-  --color-ok: #065f46;
-  --color-ok-bg: #d1fae5;
-  --color-wait: #92400e;
-  --color-wait-bg: #fef3c7;
+  --shadow-card: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 1px 1px hsl(var(--shadow-color) / 0.04);
+  --shadow-float: 0 18px 40px -18px hsl(var(--shadow-color) / 0.35), 0 4px 12px -6px hsl(var(--shadow-color) / 0.2);
+  --shadow-frame: 0 50px 100px -40px hsl(var(--shadow-color) / 0.45), 0 30px 60px -30px hsl(var(--shadow-color) / 0.3);
 
   --animate-tab-progress: tab-progress var(--tab-duration, 8s) linear forwards;
+  --animate-float: float 7s ease-in-out infinite alternate;
+  --animate-enter: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-ping-soft: ping-soft 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-flow: flow 1.8s linear infinite;
 
   @keyframes tab-progress {
     from {
@@ -27,21 +112,99 @@
       transform: scaleX(1);
     }
   }
+  @keyframes float {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: 0 -10px;
+    }
+  }
+  @keyframes enter {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+      scale: 0.97;
+    }
+  }
+  @keyframes ping-soft {
+    75%,
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+  @keyframes flow {
+    from {
+      translate: 0 -100%;
+    }
+    to {
+      translate: 0 260%;
+    }
+  }
 }
 
 @layer base {
   html {
-    color: var(--color-ink);
-    background: var(--color-canvas);
+    background: var(--canvas);
+    color: var(--ink);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--brand-soft-2);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand);
+    outline: 2px solid var(--brand-ink);
     outline-offset: 2px;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Theme switch reveal, driven by the View Transitions API from theme.ts. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@utility text-gradient {
+  background: linear-gradient(100deg, var(--brand-ink) 10%, var(--violet) 90%);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(circle, var(--line-strong) 1px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  backdrop-filter: saturate(1.6) blur(14px);
+}
+
+/* Autoplay: paused by the data attribute, keyboard focus, or a real pointer hovering. */
 [data-preview][data-playing='false'] .tab-progress,
 [data-preview]:focus-within .tab-progress {
   animation-play-state: paused;
@@ -54,7 +217,61 @@
   }
 }
 
-.dot-grid {
-  background-image: radial-gradient(circle, #d9dce5 1px, transparent 1px);
-  background-size: 16px 16px;
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-tilt {
+      animation: tilt-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 32%;
+    }
+    .scroll-reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 75%;
+    }
+  }
+}
+
+@keyframes tilt-in {
+  from {
+    transform: perspective(1600px) rotateX(16deg) scale(0.94);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .tab-progress,
+  .bar-fill {
+    background: Highlight !important;
+    forced-color-adjust: none;
+  }
+  [role='tab'][aria-selected='true'],
+  [role='radio'][aria-checked='true'],
+  [role='option'][aria-selected='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
 }
