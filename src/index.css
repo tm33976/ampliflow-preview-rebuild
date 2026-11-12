@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #2f37d9;
+  --color-brand-600: #262db8;
+  --color-brand-100: #dfe2fb;
+  --color-brand-50: #eef0fd;
+  --color-ink: #0d0f14;
+  --color-muted: #5b6072;
+  --color-line: #e6e8ee;
+  --color-canvas: #f7f8fa;
+
+  --color-ok: #065f46;
+  --color-ok-bg: #d1fae5;
+  --color-wait: #92400e;
+  --color-wait-bg: #fef3c7;
+
+  --animate-tab-progress: tab-progress var(--tab-duration, 8s) linear forwards;
+
+  @keyframes tab-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background: var(--color-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+[data-preview][data-playing='false'] .tab-progress,
+[data-preview]:focus-within .tab-progress {
+  animation-play-state: paused;
+}
+
+/* Touch screens report a sticky :hover after a tap, so hover pausing is limited to real pointers. */
+@media (hover: hover) {
+  [data-preview]:hover .tab-progress {
+    animation-play-state: paused;
+  }
+}
+
+.dot-grid {
+  background-image: radial-gradient(circle, #d9dce5 1px, transparent 1px);
+  background-size: 16px 16px;
+}
