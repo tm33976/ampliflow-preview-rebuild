@@ -71,7 +71,10 @@ export function ProductPreview({ controller, label = 'Product preview', classNam
               <span
                 key={preview.tab}
                 onAnimationEnd={onProgressEnd}
-                className="tab-progress absolute inset-x-3 bottom-0 h-0.5 origin-left animate-tab-progress rounded-full bg-brand-ink"
+                className={cx(
+                  'tab-progress absolute inset-x-3 bottom-0 h-0.5 origin-left animate-tab-progress rounded-full bg-brand-ink transition-opacity duration-200',
+                  preview.rotation === 'paused' && 'opacity-0',
+                )}
               />
             )}
           </span>
