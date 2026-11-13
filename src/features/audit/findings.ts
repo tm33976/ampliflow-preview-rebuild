@@ -152,10 +152,11 @@ export const findings: Finding[] = [
   {
     id: 'lcp',
     category: 'performance',
-    severity: 'high',
-    title: 'Largest paint at 4.5 to 6.5 seconds on mobile',
-    found: 'A render blocking Google Fonts stylesheet, and a hero subtitle that starts invisible for a fade in.',
-    fix: 'Self hosted fonts and nothing hidden above the fold. The largest paint is 1.9 seconds.',
+    severity: 'medium',
+    title: 'Render blocking fonts and a hidden hero line',
+    found:
+      'PageSpeed Insights flags about 690 ms of render blocking requests, including a Google Fonts stylesheet, and the hero subtitle starts invisible for a fade in.',
+    fix: 'Self hosted fonts and nothing hidden above the fold. The largest paint goes from 1.7 to 1.4 seconds.',
     status: 'fixed',
     where: 'results',
   },

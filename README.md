@@ -4,14 +4,14 @@ An unofficial rebuild of the product preview on [ampliflow.in](https://ampliflow
 
 ## What changed
 
-|                   | ampliflow.in today                                                         | This rebuild                                                                     |
-| ----------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Preview           | Four 2400 × 1528 screenshots, about 1 MB                                   | Live React components that you can use                                           |
-| Numbers           | 874, 1,000 and 1,074 total leads across tabs, 0% acceptance and reply rate | One dataset, every count and rate derived, unit tests fail on any mismatch       |
-| Phone             | Desktop screenshot shrunk to about 350 px, text 2 to 3 px                  | Container queries lay out each panel by its own width                            |
-| Tabs and controls | Buttons with `aria-selected` and no tab role                               | Tabs, radio groups, listboxes and a combobox, all with full keyboard support     |
-| Motion            | Rotates every 4 s, pauses on hover only                                    | 8 s with a visible timer, WCAG 2.2.2 pause control, stops on interaction         |
-| Lighthouse mobile | Performance 38 to 72, Accessibility 86, LCP 4.5 to 6.5 s, 388 to 620 KB    | Performance 91 typical, Accessibility 100, Best Practices 100, LCP 1.9 s, 164 KB |
+|                           | ampliflow.in today                                                            | This rebuild                                                                            |
+| ------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Preview                   | Four 2400 × 1528 screenshots, about 1 MB                                      | Live React components that you can use                                                  |
+| Numbers                   | 874, 1,000 and 1,074 total leads across tabs, 0% acceptance and reply rate    | One dataset, every count and rate derived, unit tests fail on any mismatch              |
+| Phone                     | Desktop screenshot shrunk to about 350 px, text 2 to 3 px                     | Container queries lay out each panel by its own width                                   |
+| Tabs and controls         | Buttons with `aria-selected` and no tab role                                  | Tabs, radio groups, listboxes and a combobox, all with full keyboard support            |
+| Motion                    | Rotates every 4 s, pauses on hover only                                       | 8 s with a visible timer, WCAG 2.2.2 pause control, stops on interaction                |
+| PageSpeed Insights mobile | Performance 95 to 98, Accessibility 87, Best Practices 96, LCP 1.7 s, 389 KiB | Performance 98 to 100, Accessibility 100, Best Practices 100, LCP 0.8 to 1.4 s, 168 KiB |
 
 ## Inside the preview
 
