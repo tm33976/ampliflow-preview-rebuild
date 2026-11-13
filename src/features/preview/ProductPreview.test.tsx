@@ -35,16 +35,25 @@ describe('ProductPreview', () => {
     expect(selectedTab()).toBe(tabs[0])
   })
 
-  it('advances when the timer finishes, and the pause control stops it', async () => {
-    const user = userEvent.setup()
+  it('advances when the timer finishes', () => {
     const { container } = render(<ProductPreview />)
-
     fireEvent.animationEnd(container.querySelector('.tab-progress') as Element, { animationName: 'tab-progress' })
     expect(selectedTab()?.textContent).toContain('Workflow')
+  })
+
+  it('pauses the timer in place and resumes it immediately', async () => {
+    const user = userEvent.setup()
+    const { container } = render(<ProductPreview />)
+    const root = container.querySelector('[data-preview]') as HTMLElement
+    const timer = container.querySelector('.tab-progress')
 
     await user.click(screen.getByRole('button', { name: 'Pause tab rotation' }))
-    expect(screen.getByRole('button', { name: 'Play tab rotation' })).toBeTruthy()
-    expect(container.querySelector('.tab-progress')).toBeNull()
+    expect(root.dataset.playing).toBe('false')
+    expect(container.querySelector('.tab-progress')).toBe(timer)
+
+    await user.click(screen.getByRole('button', { name: 'Play tab rotation' }))
+    expect(root.dataset.playing).toBe('true')
+    expect(container.querySelector('.tab-progress')).toBe(timer)
   })
 
   it('stops rotating as soon as someone picks a tab', async () => {

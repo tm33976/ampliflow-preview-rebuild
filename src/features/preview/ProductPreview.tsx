@@ -35,10 +35,10 @@ export function ProductPreview({ controller, label = 'Product preview', classNam
 
   // Any real interaction with the panels means the person is exploring, so rotation stops.
   const engage = (event: PointerEvent | KeyboardEvent) => {
-    if (!preview.autoplay) return
+    if (preview.rotation !== 'playing') return
     if ((event.target as Element).closest('[data-autoplay-toggle]')) return
     if ('key' in event && (event.key === 'Tab' || event.key === 'Shift')) return
-    preview.setAutoplay(false)
+    preview.stop()
   }
 
   const onProgressEnd = (event: AnimationEvent) => {
@@ -67,7 +67,7 @@ export function ProductPreview({ controller, label = 'Product preview', classNam
             className="absolute inset-y-1 left-1 w-[calc((100%-0.5rem)/4)] rounded-lg bg-brand-soft transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{ transform: `translateX(${activeIndex * 100}%)` }}
           >
-            {preview.autoplay && (
+            {preview.rotation !== 'stopped' && (
               <span
                 key={preview.tab}
                 onAnimationEnd={onProgressEnd}
@@ -115,35 +115,37 @@ export function ProductPreview({ controller, label = 'Product preview', classNam
         </button>
       </div>
 
-      <AppFrame activeTab={preview.tab}>
-        <RevealContext value={seen}>
-          <div className="grid">
-            {TAB_IDS.map((tab) => {
-              const selected = tab === preview.tab
-              return (
-                <div
-                  key={tab}
-                  role="tabpanel"
-                  id={ids(tab).panel}
-                  aria-labelledby={ids(tab).tab}
-                  tabIndex={selected ? 0 : -1}
-                  inert={!selected}
-                  data-active={selected}
-                  className={cx(
-                    'group/panel rounded-lg transition-[opacity,translate,visibility] duration-500 [grid-area:1/1]',
-                    selected ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-1 opacity-0',
-                  )}
-                >
-                  {tab === 'analytics' && <AnalyticsPanel range={preview.range} onRangeChange={preview.setRange} />}
-                  {tab === 'workflow' && <WorkflowPanel />}
-                  {tab === 'leads' && <LeadsPanel />}
-                  {tab === 'inbox' && <InboxPanel />}
-                </div>
-              )
-            })}
-          </div>
-        </RevealContext>
-      </AppFrame>
+      <div data-preview-stage>
+        <AppFrame activeTab={preview.tab}>
+          <RevealContext value={seen}>
+            <div className="grid">
+              {TAB_IDS.map((tab) => {
+                const selected = tab === preview.tab
+                return (
+                  <div
+                    key={tab}
+                    role="tabpanel"
+                    id={ids(tab).panel}
+                    aria-labelledby={ids(tab).tab}
+                    tabIndex={selected ? 0 : -1}
+                    inert={!selected}
+                    data-active={selected}
+                    className={cx(
+                      'group/panel rounded-lg transition-[opacity,translate,visibility] duration-500 [grid-area:1/1]',
+                      selected ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-1 opacity-0',
+                    )}
+                  >
+                    {tab === 'analytics' && <AnalyticsPanel range={preview.range} onRangeChange={preview.setRange} />}
+                    {tab === 'workflow' && <WorkflowPanel />}
+                    {tab === 'leads' && <LeadsPanel />}
+                    {tab === 'inbox' && <InboxPanel />}
+                  </div>
+                )
+              })}
+            </div>
+          </RevealContext>
+        </AppFrame>
+      </div>
     </div>
   )
 }

@@ -219,15 +219,19 @@
   backdrop-filter: saturate(1.6) blur(14px);
 }
 
-/* Autoplay: paused by the data attribute, keyboard focus, or a real pointer hovering. */
+/*
+ * Autoplay pauses while paused or off screen, while keyboard focus is inside, and while a real
+ * pointer reads the app window. The play button is excluded from both, or pressing play would
+ * keep the timer frozen until the mouse moved away.
+ */
 [data-preview][data-playing='false'] .tab-progress,
-[data-preview]:focus-within .tab-progress {
+[data-preview]:has(:focus-visible:not([data-autoplay-toggle])) .tab-progress {
   animation-play-state: paused;
 }
 
 /* Touch screens report a sticky :hover after a tap, so hover pausing is limited to real pointers. */
 @media (hover: hover) {
-  [data-preview]:hover .tab-progress {
+  [data-preview]:has([data-preview-stage]:hover) .tab-progress {
     animation-play-state: paused;
   }
 }
