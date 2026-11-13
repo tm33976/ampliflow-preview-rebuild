@@ -9,7 +9,6 @@ import { Closing } from './features/site/Closing'
 import { SiteFooter } from './features/site/SiteFooter'
 import { SiteHeader } from './features/site/SiteHeader'
 import { Story } from './features/story/Story'
-import { LINKS } from './lib/links'
 import { useTheme } from './lib/theme'
 
 const loadPalette = () => import('./features/command/CommandPalette')
@@ -49,15 +48,7 @@ export default function App() {
         aria-label="Prototype notice"
         className="bg-[#0d0f14] px-4 py-2 text-center text-xs text-white/80 sm:text-sm"
       >
-        Unofficial redesign prototype by Tushar Mishra. Not affiliated with Ampliflow.{' '}
-        <a
-          href={LINKS.original}
-          target="_blank"
-          rel="noreferrer"
-          className="font-medium text-white underline underline-offset-2"
-        >
-          See the original
-        </a>
+        Unofficial redesign prototype by Tushar Mishra. Not affiliated with Ampliflow.
       </aside>
       <SiteHeader onOpenPalette={openPalette} onPrefetchPalette={prefetchPalette} />
 
