@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react'
+import { RevealContext } from '../../components/reveal'
 import { SectionHeading } from '../../components/SectionHeading'
+import { CountUp } from '../../components/ui'
 import { cx } from '../../lib/cx'
 import { useInView } from '../../lib/hooks'
 import { metrics, MEASURED_NOTE, type Metric } from './metrics'
@@ -37,10 +39,12 @@ function Bar({
 function MetricCard({ metric }: { metric: Metric }) {
   const better = metric.higherIsBetter ? metric.after >= metric.before : metric.after <= metric.before
   return (
-    <li className="scroll-reveal flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-card">
+    <li className="flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-card">
       <p className="text-sm font-medium text-muted">{metric.label}</p>
       <p className="mt-3 flex items-baseline gap-1.5">
-        <span className="text-gradient text-4xl font-semibold tracking-tight tabular-nums">{metric.headline}</span>
+        <span className="text-gradient text-4xl font-semibold tracking-tight tabular-nums">
+          <CountUp value={metric.after} format={metric.headline} />
+        </span>
         <span className="text-sm text-muted">{metric.unit}</span>
       </p>
       <p className="mt-1 text-xs text-muted">{metric.hint}</p>
@@ -61,19 +65,21 @@ function MetricCard({ metric }: { metric: Metric }) {
 export function Results() {
   const [listRef, inView] = useInView<HTMLUListElement>(0.25, { once: true })
   return (
-    <section id="results" aria-labelledby="results-heading" className="py-20 sm:py-28">
+    <section id="results" aria-labelledby="results-heading" className="defer-render py-20 sm:py-28">
       <SectionHeading id="results-heading" eyebrow="Results" title="Measured, not guessed">
         {MEASURED_NOTE}
       </SectionHeading>
-      <ul
-        ref={listRef}
-        style={{ '--bar-scale': inView ? 1 : 0 } as CSSProperties}
-        className="mx-auto mt-14 grid max-w-6xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4"
-      >
-        {metrics.map((metric) => (
-          <MetricCard key={metric.label} metric={metric} />
-        ))}
-      </ul>
+      <RevealContext value={inView}>
+        <ul
+          ref={listRef}
+          style={{ '--bar-scale': inView ? 1 : 0 } as CSSProperties}
+          className="mx-auto mt-14 grid max-w-6xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4"
+        >
+          {metrics.map((metric) => (
+            <MetricCard key={metric.label} metric={metric} />
+          ))}
+        </ul>
+      </RevealContext>
     </section>
   )
 }

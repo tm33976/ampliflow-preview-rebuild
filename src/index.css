@@ -181,9 +181,24 @@
 }
 
 @utility text-gradient {
-  background: linear-gradient(100deg, var(--brand-ink) 10%, var(--violet) 90%);
+  background: linear-gradient(100deg, var(--brand-ink) 10%, var(--violet) 45%, var(--brand-ink) 85%);
+  background-size: 200% 100%;
   background-clip: text;
   color: transparent;
+}
+
+/* Scrolls normally (wheel, touch, keyboard) but never paints a scrollbar, here or in children. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  & * {
+    scrollbar-width: none;
+  }
+  & *::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @utility bg-grid {
@@ -238,6 +253,243 @@
   }
   to {
     transform: none;
+  }
+}
+
+/* Reading progress, driven by the page scroll with no JavaScript. Hidden where unsupported. */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--brand), var(--violet));
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+@keyframes grow-x {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* How it works: the rail fills and each step lights up as it crosses the viewport. */
+.steps-timeline {
+  view-timeline-name: --steps;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .steps-rail-fill {
+      animation: grow-y linear both;
+      animation-timeline: --steps;
+      animation-range: entry 40% exit 60%;
+    }
+    .step-dot {
+      animation: dot-on linear both;
+      animation-timeline: view();
+      animation-range: entry 80% cover 45%;
+    }
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dot-on {
+  from {
+    background: var(--surface);
+    color: var(--muted);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  to {
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 0 0 6px var(--brand-soft);
+  }
+}
+
+/* Cursor spotlight on cards. Coordinates come from the delegated listener in spotlight.ts. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    26rem circle at var(--mx, 50%) var(--my, 0%),
+    color-mix(in oklab, var(--brand) 13%, transparent),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+/* A light beam that travels around the border of featured cards. */
+@property --beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.beam {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    conic-gradient(
+        from var(--beam-angle),
+        var(--line) 0deg,
+        var(--line) 240deg,
+        var(--brand-ink) 300deg,
+        var(--violet) 330deg,
+        var(--line) 360deg
+      )
+      border-box;
+  animation: beam-spin 5s linear infinite;
+}
+
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* A sweep of light across primary buttons: once after load, then on hover. */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.32) 50%, transparent 65%);
+  translate: -110% 0;
+  pointer-events: none;
+  animation: shine-sweep 1.4s 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+}
+
+@media (hover: hover) {
+  .shine:hover::after {
+    animation: shine-sweep 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+  }
+}
+
+@keyframes shine-sweep {
+  from {
+    translate: -110% 0;
+  }
+  to {
+    translate: 110% 0;
+  }
+}
+
+/* Repaints every frame, so it only runs while hovered instead of during page load. */
+@media (hover: hover) {
+  .text-gradient-pan:hover {
+    animation: gradient-pan 2.4s ease-in-out infinite alternate;
+  }
+}
+
+/* Below the fold sections skip style, layout and paint (and their animations) until they near the viewport. */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+@keyframes gradient-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* Infinite marquee: the track holds the list twice and slides by one copy. */
+.marquee {
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+
+.marquee[data-reverse] .marquee-track {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    translate: calc(-50% - var(--marquee-gap, 1rem) / 2) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    mask-image: none;
+  }
+  .marquee[data-reverse],
+  .marquee-copy {
+    display: none;
+  }
+  .marquee-track {
+    display: block;
+    width: auto;
+    animation: none !important;
+  }
+  .marquee-track > ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+}
+
+/* The hero glow follows the cursor on devices with a real pointer. */
+.hero-glow {
+  background: radial-gradient(34rem circle at var(--mx, 50%) var(--my, 0%), var(--glow-1), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .spotlight-zone:hover .hero-glow {
+    opacity: 1;
   }
 }
 

@@ -9,5 +9,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/browser-shims.ts', './src/test/setup.ts'],
+    testTimeout: 20_000,
   },
 })

@@ -5,8 +5,9 @@ import { ThemeToggle } from './ThemeToggle'
 
 const sections = [
   { href: '#preview', label: 'Preview' },
-  { href: '#phone', label: 'On a phone' },
-  { href: '#results', label: 'Results' },
+  { href: '#pricing', label: 'Pricing' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#audit', label: 'Audit' },
   { href: '#decisions', label: 'Decisions' },
 ]
 

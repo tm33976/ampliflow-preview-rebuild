@@ -1,7 +1,12 @@
 import {
+  BadgeDollarSign,
   BarChart3,
+  Boxes,
   CalendarRange,
   ChevronsUp,
+  CircleHelp,
+  ClipboardCheck,
+  ListOrdered,
   Code2,
   ExternalLink,
   Gauge,
@@ -20,6 +25,7 @@ import {
 } from 'lucide-react'
 import { useMemo } from 'react'
 import { RANGES } from '../../data/demo'
+import { scrollBehavior, scrollIntoViewSettled } from '../../lib/focus'
 import { LINKS } from '../../lib/links'
 import { switchTheme, type ThemePreference } from '../../lib/theme'
 import { TAB_IDS, TAB_LABELS, type PreviewController, type TabId } from '../preview/controller'
@@ -27,12 +33,17 @@ import type { Command } from './types'
 
 const tabIcons: Record<TabId, LucideIcon> = { analytics: BarChart3, workflow: Workflow, leads: Users, inbox: Inbox }
 
-const scrollBehavior = (): ScrollBehavior =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+const jumps: [id: string, label: string, icon: LucideIcon][] = [
+  ['features', 'Six systems', Boxes],
+  ['how', 'How it works', ListOrdered],
+  ['pricing', 'Pricing', BadgeDollarSign],
+  ['faq', 'FAQ', CircleHelp],
+  ['audit', 'Audit findings', ClipboardCheck],
+]
 
 function focusSection(id: string) {
   const section = document.getElementById(id)
-  section?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
+  scrollIntoViewSettled(section)
   section?.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true })
 }
 
@@ -93,6 +104,13 @@ export function useCommands(preview: PreviewController, theme: ThemePreference):
       themeCommand('light', 'Light theme', Sun),
       themeCommand('dark', 'Dark theme', Moon),
       themeCommand('system', 'Match system theme', Laptop),
+      ...jumps.map(([id, label, icon]): Command => ({
+        id: `go-${id}`,
+        group: 'Jump to',
+        label,
+        icon,
+        perform: () => focusSection(id),
+      })),
       {
         id: 'go-phone',
         group: 'Jump to',

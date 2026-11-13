@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react'
+import { ChevronDown } from 'lucide-react'
+import { useState, type ReactNode } from 'react'
 import { SectionHeading } from '../../components/SectionHeading'
 import { Chip } from '../../components/ui'
+import { cx } from '../../lib/cx'
 import { useInView, useMediaQuery } from '../../lib/hooks'
 import { ProductPreview } from '../preview/ProductPreview'
 
@@ -24,7 +26,25 @@ function StatusBar() {
   )
 }
 
+function ScrollHint({ hidden }: { hidden: boolean }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={cx(
+        'pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-center bg-gradient-to-t from-canvas to-transparent pb-4 transition-opacity duration-500',
+        hidden ? 'opacity-0' : 'opacity-100',
+      )}
+    >
+      <span className="flex items-center gap-1 rounded-full border border-line bg-surface/90 px-3 py-1 text-xs font-medium text-muted shadow-float backdrop-blur">
+        <ChevronDown className="size-3.5 animate-bounce" />
+        Scroll inside
+      </span>
+    </div>
+  )
+}
+
 function Phone({ children, scrollLabel }: { children: ReactNode; scrollLabel?: string }) {
+  const [scrolled, setScrolled] = useState(false)
   return (
     <div className="relative w-[21.5rem] max-w-full rounded-[2.9rem] bg-[#0d0f14] p-2.5 shadow-frame ring-1 ring-line-strong">
       <div className="relative flex h-[42rem] flex-col overflow-hidden rounded-[2.35rem] bg-canvas">
@@ -34,9 +54,20 @@ function Phone({ children, scrollLabel }: { children: ReactNode; scrollLabel?: s
         />
         <StatusBar />
         {scrollLabel ? (
-          <div role="region" aria-label={scrollLabel} className="flex-1 overflow-y-auto overscroll-contain">
-            {children}
-          </div>
+          <>
+            <div
+              role="region"
+              aria-label={scrollLabel}
+              tabIndex={0}
+              onScroll={(event) => {
+                if (!scrolled && event.currentTarget.scrollTop > 12) setScrolled(true)
+              }}
+              className="no-scrollbar flex-1 overflow-y-auto overscroll-contain rounded-b-[2.35rem]"
+            >
+              {children}
+            </div>
+            <ScrollHint hidden={scrolled} />
+          </>
         ) : (
           <div className="flex-1 overflow-hidden">{children}</div>
         )}
@@ -72,7 +103,7 @@ function OriginalScreen({ load }: { load: boolean }) {
           className="mt-2 h-auto w-full rounded-md border border-line"
         />
       ) : (
-        <div className="mt-2 aspect-[2400/1528] w-full rounded-md border border-line bg-surface-2" />
+        <div className="mt-2 aspect-[2400/1528] w-full animate-pulse rounded-md border border-line bg-surface-2" />
       )}
       <p className="mt-5 rounded-xl bg-rose-soft p-3 text-xs leading-relaxed text-rose">
         On a 390 pixel phone, ampliflow.in shows this 2400 pixel screenshot about 350 pixels wide. Most of its text
@@ -89,7 +120,11 @@ export function PhoneCompare() {
   const wide = useMediaQuery('(min-width: 48rem)')
 
   return (
-    <section id="phone" aria-labelledby="phone-heading" className="border-y border-line bg-surface/60 py-20 sm:py-28">
+    <section
+      id="phone"
+      aria-labelledby="phone-heading"
+      className="defer-render border-y border-line bg-surface/60 py-20 sm:py-28"
+    >
       <SectionHeading
         id="phone-heading"
         eyebrow="On a phone"

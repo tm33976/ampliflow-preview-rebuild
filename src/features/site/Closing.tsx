@@ -4,8 +4,8 @@ import { LINKS, shortcutLabel } from '../../lib/links'
 
 export function Closing({ onOpenPalette }: { onOpenPalette: () => void }) {
   return (
-    <section aria-labelledby="closing-heading" className="px-4 py-20 sm:px-6 sm:py-28">
-      <div className="scroll-reveal relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-line bg-surface px-6 py-14 text-center shadow-frame sm:px-12">
+    <section aria-labelledby="closing-heading" className="defer-render px-4 py-20 sm:px-6 sm:py-28">
+      <div className="beam scroll-reveal relative mx-auto max-w-4xl overflow-hidden rounded-3xl px-6 py-14 text-center shadow-frame sm:px-12">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
@@ -27,7 +27,7 @@ export function Closing({ onOpenPalette }: { onOpenPalette: () => void }) {
               href={LINKS.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 font-semibold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] transition-colors hover:bg-brand-hover"
+              className="shine inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 font-semibold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] transition-colors hover:bg-brand-hover"
             >
               Read the source
               <ArrowUpRight className="size-4" aria-hidden="true" />

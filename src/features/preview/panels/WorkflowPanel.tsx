@@ -170,7 +170,7 @@ export const WorkflowPanel = memo(function WorkflowPanel() {
         <h3 className="text-base font-semibold @lg:text-lg">{campaign.name}</h3>
         <Chip tone="ok">
           <span className="relative flex size-1.5">
-            <span className="absolute inline-flex size-full animate-ping-soft rounded-full bg-ok opacity-60" />
+            <span className="absolute inline-flex size-full animate-ping-soft rounded-full bg-ok opacity-60 [animation-play-state:paused] group-data-[active=true]/panel:[animation-play-state:running]" />
             <span className="relative inline-flex size-1.5 rounded-full bg-ok" />
           </span>
           Running

@@ -18,7 +18,7 @@ function Card({
   return (
     <li
       className={cx(
-        'scroll-reveal group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-card',
+        'spotlight group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-card',
         className,
       )}
     >
@@ -81,7 +81,7 @@ export function Story() {
     <section
       id="decisions"
       aria-labelledby="decisions-heading"
-      className="border-t border-line bg-surface/60 py-20 sm:py-28"
+      className="defer-render border-t border-line bg-surface/60 py-20 sm:py-28"
     >
       <SectionHeading id="decisions-heading" eyebrow="Decisions" title="What changed, and the thinking behind it">
         The goal was never a prettier screenshot. It was a preview a founder can trust, read on any screen and use with
@@ -183,7 +183,7 @@ export function Story() {
         </h3>
         <ul className="mt-8 grid gap-4 lg:grid-cols-3">
           {tradeOffs.map((item) => (
-            <li key={item.choice} className="scroll-reveal rounded-2xl border border-line bg-surface p-6 shadow-card">
+            <li key={item.choice} className="spotlight rounded-2xl border border-line bg-surface p-6 shadow-card">
               <p className="font-semibold">{item.choice}</p>
               <dl className="mt-4 space-y-3 text-sm">
                 <div>
@@ -219,7 +219,7 @@ export function Story() {
           {weekOne.map((step, i) => (
             <li
               key={step.title}
-              className="scroll-reveal relative rounded-2xl border border-line bg-surface p-6 shadow-card"
+              className="spotlight relative rounded-2xl border border-line bg-surface p-6 shadow-card"
             >
               <span
                 aria-hidden="true"

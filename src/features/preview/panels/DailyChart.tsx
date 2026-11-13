@@ -56,7 +56,7 @@ export function DailyChart({ days, limit }: Props) {
             className="absolute inset-x-0 border-t-2 border-dashed border-wait/60"
             style={{ bottom: `${y(limit)}%` }}
           >
-            <span className="absolute -top-5 right-0 rounded bg-wait-soft px-1.5 py-px text-[10px] font-semibold text-wait">
+            <span className="absolute -top-5 right-0 rounded bg-wait-soft px-1.5 py-px text-[11px] font-semibold text-wait">
               Daily limit {limit}
             </span>
           </div>
