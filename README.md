@@ -2,7 +2,6 @@
 
 An unofficial rebuild of the product preview on [ampliflow.in](https://ampliflow.in/), made by [Tushar Mishra](https://tushar-mishra-cse-portfolio.vercel.app/) for the Frontend Developer Intern application. Not affiliated with Ampliflow. All people, companies and numbers in the demo are fictional.
 
-Live: https://ampliflow-preview-rebuild.vercel.app
 
 ## What changed
 
@@ -68,3 +67,9 @@ src/
   features/command/     command menu, commands and filtering
   features/hero, compare, results, story, site   page sections
 ```
+
+## 📄 Author
+
+👨‍💻 **Tushar Mishra**  
+📧 tm3390782@gmail.com  
+🌐 [Portfolio](https://tushar-mishra-cse-portfolio.vercel.app) | [GitHub](https://github.com/tm33976) | [LinkedIn](https://www.linkedin.com/in/tushar-mishra-5253ab311/)
