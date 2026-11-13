@@ -2,7 +2,6 @@
 
 An unofficial rebuild of the product preview on [ampliflow.in](https://ampliflow.in/), made by [Tushar Mishra](https://tushar-mishra-cse-portfolio.vercel.app/) for the Frontend Developer Intern application. Not affiliated with Ampliflow. All people, companies and numbers in the demo are fictional.
 
-
 ## What changed
 
 |                   | ampliflow.in today                                                         | This rebuild                                                                     |
